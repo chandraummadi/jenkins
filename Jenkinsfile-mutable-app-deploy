@@ -30,14 +30,14 @@ pipeline {
     stage('Check Artifact') {
       steps {
         sh '''
-          curl -u admin:admin123 -X GET "http://172.31.7.184:8081/service/rest/v1/components?repository=${COMPONENT}" -H "accept: application/json" | jq ".items[].name" | grep ${APP_VERSION}
+          curl -u admin:admin123 -X GET "http://172.31.0.112:8081/service/rest/v1/components?repository=${COMPONENT}" -H "accept: application/json" | jq ".items[].name" | grep ${APP_VERSION}
         '''
       }
     }
 
     stage('App Deployment') {
       steps {
-        git branch: 'main', url: "https://DevOps-Batches@dev.azure.com/DevOps-Batches/DevOps60/_git/${COMPONENT}"
+        git branch: 'main', url: "https://github.com/chandraummadi/${COMPONENT}.git"
         sh '''
           cd terraform-mutable
           export TF_VAR_APP_VERSION=${APP_VERSION}
